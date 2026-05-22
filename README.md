@@ -26,3 +26,20 @@ The SDA and SCL lines form the shared communication medium, enabling synchronize
 
 Overall, this architecture ensures correct arbitration, clean bus control, and scalable multi-slave communication.
 
+*I2C Slave FSM Description*
+
+<img width="1012" height="765" alt="image" src="https://github.com/user-attachments/assets/79e196ee-207e-4ece-addd-3319d832d04a" />
+
+
+The figure illustrates the finite state machine (FSM) of the I2C slave module, which controls the slave’s behavior during different stages of communication with the master on the I2C bus.
+
+The FSM starts in the IDLE state, where the slave continuously monitors the SDA line for a valid start condition (start = 1). Once detected, the slave transitions to the start_state, where it prepares to receive the incoming address from the master.
+
+In the register_address state, the slave shifts in the 7-bit address and compares it with its own assigned address. If the address does not match (address_match = 0), the FSM returns to IDLE. If a match is detected, the slave proceeds to the address_ack state to acknowledge the master.
+
+After acknowledgment, the direction of the operation is determined. If it is a write operation (wr = 1), the FSM enters the data_write_state, where it receives data from the master and stores it internally. Once a full byte is received (counter >= 7), it transitions to write_ack to acknowledge successful reception before returning for additional data or stopping.
+
+If it is a read operation (wr = 0), the FSM enters the data_read_state, where it transmits stored data onto the SDA line. After sending one byte (counter >= 7), it moves to read_ack to wait for acknowledgment from the master.
+
+The communication ends when a stop condition (stop = 1) is detected, transitioning the FSM to stop_state and then returning to IDLE.
+
