@@ -9,6 +9,7 @@ The architecture is designed to be scalable, allowing additional slaves to be ad
 A testbench is used to validate the system by performing repeated write-then-read operations for each slave multiple times, ensuring correct addressing, data integrity, and stable bus behavior under repeated access.
 
 Overall, this design demonstrates a functional and scalable I2C multi-slave system suitable for FPGA/ASIC implementation and provides a solid foundation for further expansion or verification enhancements.
+
 *System Block Diagram Description*
 <img width="1209" height="535" alt="image" src="https://github.com/user-attachments/assets/3fefc3d7-1c4e-41ea-b19e-b2094c1654a5" />
 
