@@ -10,7 +10,7 @@ A testbench is used to validate the system by performing repeated write-then-rea
 
 Overall, this design demonstrates a functional and scalable I2C multi-slave system suitable for FPGA/ASIC implementation and provides a solid foundation for further expansion or verification enhancements.
 
-*System Block Diagram Description*
+## System Block Diagram Description
 <img width="1209" height="535" alt="image" src="https://github.com/user-attachments/assets/3fefc3d7-1c4e-41ea-b19e-b2094c1654a5" />
 
 
@@ -26,7 +26,7 @@ The SDA and SCL lines form the shared communication medium, enabling synchronize
 
 Overall, this architecture ensures correct arbitration, clean bus control, and scalable multi-slave communication.
 
-*I2C Slave FSM Description*
+## I2C Slave FSM Description
 
 <img width="1012" height="765" alt="image" src="https://github.com/user-attachments/assets/79e196ee-207e-4ece-addd-3319d832d04a" />
 
