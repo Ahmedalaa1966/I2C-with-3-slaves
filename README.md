@@ -43,3 +43,40 @@ If it is a read operation (wr = 0), the FSM enters the data_read_state, where it
 
 The communication ends when a stop condition (stop = 1) is detected, transitioning the FSM to stop_state and then returning to IDLE.
 
+## Simulation results
+
+### 1. Start Condition
+<img width="901" height="469" alt="image" src="https://github.com/user-attachments/assets/018fd222-4fc6-415d-8400-c0a32cbdeba9" />
+he figure above illustrates the successful initiation of an I2C transaction, captured during simulation. As dictated by the I2C protocol, a valid start condition is recognized when the SDA (Serial Data) line transitions from HIGH to LOW while the SCL (Serial Clock) line is held HIGH.
+In this waveform, the SDA_in signal is pulled LOW while SCL remains HIGH. Upon detecting this specific bus sequence, the slave device's internal state machine reacts exactly as designed. The next state (ns) immediately transitions from the IDLE_state to the start_state, confirming that the slave has correctly identified the start of the transaction and is ready to begin receiving the register address.
+
+
+### 2. Slave 1 Write and Read Data Verification
+<img width="1554" height="647" alt="image" src="https://github.com/user-attachments/assets/50f17cb1-c090-485f-849d-8cb2c1820b4c" />
+
+The figure above demonstrates complete write and read cycles for the first slave device. Upon a valid address match in the register_address state, the FSM enters data_write_state for the write operation, where the internal counter increments from 0 to 7 as data is received via the sipo register. In the subsequent transaction, the FSM detects a read request and transitions to data_read_state, transmitting the stored data (56 in hex from rd_data) back to the master. The sequence concludes when a stop condition transitions the FSM through the stop state and back to IDLE.
+
+### 3. Stop Condition
+<img width="1438" height="380" alt="image" src="https://github.com/user-attachments/assets/1d43c0b7-10fc-4bc0-b6de-5c385cb08f63" />
+The figure above captures the successful detection of the I2C stop condition, which terminates the communication cycle. After completing the data phase and moving through the acknowledgment states, a stop condition is recognized when the SDA line transitions from LOW to HIGH while the SCL line remains held HIGH. Upon detecting this protocol sequence, the slave FSM transitions into stop_state before resetting back to IDLE_state, placing the module back into a listening mode for the next start sequence.
+
+
+
+### 4. Slave 2 Write and Read Data Verification
+<img width="1864" height="665" alt="image" src="https://github.com/user-attachments/assets/c08e8586-be80-4cd8-abc0-1df33dfb570f" />
+
+The figure above validates data integrity for the second slave device by confirming that the retrieved data matches the written data. During the write operations, the FSM receives data payloads (such as aa and 22 in hex) via the sipo register and stores them internally. When the master subsequently addresses Slave 2 with read requests, the FSM transitions to the read phases and drives those exact stored values back onto the bus via rd_data. The alignment of the written input and readback data across multiple transaction blocks confirms the correct implementation of the slave's internal registers and memory tracking logic.
+
+
+### 5. Slave 3 Write and Read Data Verification
+<img width="1856" height="618" alt="image" src="https://github.com/user-attachments/assets/1ce12d97-edc7-4d50-b1e3-f53ea430aad9" />
+
+The figure above validates the data integrity and multi-device address decoding for the third slave module. Similar to the previous tests, when Slave 3 is correctly targeted by its unique address, the FSM handles independent write sequences to capture input payloads (such as f0 and 33 in hex). The subsequent read requests show the FSM shifting to read states and mirroring those exact bytes back to the master through rd_data. This successful validation across all three separate modules proves that your I2C bus system handles multi-slave addressing, state transitions, and distinct data tracking flawlessly.
+
+### 6. Multi-Slave System Integration Verification
+<img width="1866" height="243" alt="image" src="https://github.com/user-attachments/assets/1b869544-200b-4555-995b-2acf9b2dc2a7" />
+
+The figure above showcases the top-level testbench simulation, verifying the concurrent operation and address decoding across all three I2C slave devices on the shared bus. The waveform tracks the independent data outputs (data_out_1, data_out_2, data_out_3) alongside their respective target addresses (addr_out_1, addr_out_2, addr_out_3). It clearly demonstrates the system's ability to selectively route transactions: Slave 1 processes data packets like 56 and 11, Slave 2 handles aa and 22, and Slave 3 manages f0 and 33. This complete bus-level overview confirms that address collision is avoided and each module strictly responds only when its unique hardware address is matched.
+
+
+
