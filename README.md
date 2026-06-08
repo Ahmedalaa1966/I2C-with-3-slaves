@@ -42,13 +42,13 @@ Each slave is controlled by a finite state machine with the following states:
 - **read_ack** — waits for master acknowledgment after sending a byte
 - **stop_state** — detects the stop condition and resets to IDLE
 
-FSM diagrams are available in [`architecture/`](./architecture/).
+FSM diagrams are available in [`Architecture/`](./Architecture/).
 
 ---
 
 ## Simulation Results
 
-All simulation waveforms are located in the [`simulation/`](./simulation/) folder. The testbench performs repeated write-then-read operations targeting each slave to verify correct addressing, data integrity, and stable bus behavior.
+All simulation waveforms are located in the [`Simulation/`](./Simulation/) folder. The testbench performs repeated write-then-read operations targeting each slave to verify correct addressing, data integrity, and stable bus behavior.
 
 ### Verified scenarios
 
