@@ -7,11 +7,11 @@ A complete I2C system implemented in RTL, consisting of one master and three ind
 ## Repository Structure
 
 ```
-├── architecture/        # Block diagram and Slave FSM diagrams
-├── simulation/          # Simulation waveform snapshots
-├── script/              # ModelSim/QuestaSim .do scripts
-├── src/                 # RTL source files (master, slaves, controller)
-└── tb/                  # Testbench files
+├── Architecture/        # Block diagram and Slave FSM diagrams
+├── Simulation/          # Simulation waveform snapshots
+├── Script/              # QuestaSim .do scripts
+├── rtl/                 # RTL source files (master, slaves, controller)
+└── Verification/        # Testbench files
 ```
 
 ---
@@ -24,7 +24,7 @@ Three slave modules are each assigned a unique 7-bit address. Every slave monito
 
 The architecture is designed to be scalable: additional slaves can be integrated by assigning new addresses without modifying the core bus logic.
 
-For a full visual overview of the system architecture and the slave FSM, refer to the diagrams in the [`architecture/`](./architecture/) folder.
+For a full visual overview of the system architecture and the slave FSM, refer to the diagrams in the [`Architecture/`](./Architecture/) folder.
 
 ---
 
